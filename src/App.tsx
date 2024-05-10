@@ -4,11 +4,26 @@ import PostForm from "./components/PostForm";
 import { useGetPosts } from "./lib/react-queries/queries";
 import { Post } from "./types";
 import Navbar from "./components/Navbar";
+import Search from "./components/Search";
 
 function App() {
 	const [openModal, setOpenModal] = useState(false);
 	const { data, error, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } =
 		useGetPosts();
+
+	const [searchQuery, setSearchQuery] = useState("");
+
+	const filteredPosts = data?.pages.map(page =>
+		page.filter(
+			(post: Post) =>
+				post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				post.body.toLowerCase().includes(searchQuery.toLowerCase())
+		)
+	);
+
+	const handleSearch = (query: string) => {
+		setSearchQuery(query);
+	};
 
 	if (isLoading) return <div>Loading.....!</div>;
 	if (error) return <div>{error.message}</div>;
@@ -17,7 +32,8 @@ function App() {
 		<>
 			<Navbar setOpenModal={setOpenModal} />
 			<main className="p-4">
-				{data?.pages?.map((page: Post[], index: number) => (
+				<Search onSearch={handleSearch} />
+				{filteredPosts?.map((page: Post[], index: number) => (
 					<div key={index}>
 						{page?.map((post: Post) => (
 							<PostCard key={post.id} post={post} />
