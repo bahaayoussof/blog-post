@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Post } from "../types";
 import { useCreatePost, useUpdatePost } from "../lib/react-queries/mutations";
+import toast from "react-hot-toast";
 
 type PostFormProps = {
 	open: boolean;
@@ -21,16 +22,18 @@ const PostForm = ({ post, open, onClose, action }: PostFormProps) => {
 		try {
 			if (action === "create") {
 				createPost({ title, body });
+				toast.success("Post created successfully");
 				setTitle("");
 				setBody("");
 			} else {
 				editPost({ id: post?.id, title, body });
+				toast.success("Post created successfully");
 			}
+			onClose();
 		} catch (error) {
+			toast.error("An error occurred");
 			console.error(error);
 		}
-
-		onClose();
 	};
 
 	return (

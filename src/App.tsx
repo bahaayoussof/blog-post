@@ -5,6 +5,7 @@ import { useGetPosts } from "./lib/react-queries/queries";
 import { Post } from "./types";
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
+import { Toaster } from "react-hot-toast";
 
 function App() {
 	const [openModal, setOpenModal] = useState(false);
@@ -53,6 +54,7 @@ function App() {
 			</main>
 
 			<PostForm action="create" open={openModal} onClose={() => setOpenModal(false)} />
+			<Toaster />
 		</>
 	);
 }

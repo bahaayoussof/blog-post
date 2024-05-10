@@ -9,8 +9,7 @@ export const useCreatePost = () => {
 
 	return useMutation({
 		mutationFn: (post: Post) => createPost(post),
-		onSuccess: data => {
-			queryClient.setQueryData<Post[]>([QUERY_KEYS.GET_POSTS, data.id], data);
+		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: [QUERY_KEYS.GET_POSTS],
 			});
@@ -23,8 +22,10 @@ export const useUpdatePost = () => {
 
 	return useMutation({
 		mutationFn: (post: Post) => updatePost(post),
-		onSuccess: data => {
-			queryClient.setQueryData<Post[]>([QUERY_KEYS.GET_POST, data.id], data);
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: [QUERY_KEYS.GET_POSTS],
+			});
 		},
 	});
 };

@@ -1,5 +1,5 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { getPostById, getPosts } from "../api";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getPosts } from "../api";
 import { QUERY_KEYS } from "./queryKeys";
 
 export const useGetPosts = () => {
@@ -12,11 +12,3 @@ export const useGetPosts = () => {
 		initialPageParam: 1,
 	});
 };
-
-// export const useGetPostById = (id: number) => {
-// 	return useQuery({
-// 		queryKey: [QUERY_KEYS.GET_POST, id],
-// 		queryFn: () => getPostById(id),
-// 		enabled: !!id,
-// 	});
-// };

@@ -3,6 +3,7 @@ import { Post } from "../types";
 import { Pen, Trash } from "lucide-react";
 import PostForm from "./PostForm";
 import { useDeletePost } from "../lib/react-queries/mutations";
+import toast from "react-hot-toast";
 
 const PostCard = ({ post }: { post: Post }) => {
 	const [showFullBody, setShowFullBody] = useState(false);
@@ -15,7 +16,12 @@ const PostCard = ({ post }: { post: Post }) => {
 	};
 
 	const deletePostHandler = () => {
-		deletePost(post.id!);
+		try {
+			deletePost(post.id!);
+			toast.success("Post deleted successfully");
+		} catch (error) {
+			toast.error("An error occurred");
+		}
 	};
 
 	return (
